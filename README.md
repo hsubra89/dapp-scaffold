@@ -2,11 +2,22 @@
 
 This project was built on an initial scaffold provided by https://github.com/solana-labs/dapp-scaffold.git. I've deleted most of the code that's present in the original code base. I've raised this patch against the source `dapp-scaffold` repo so that its easier to see the diff. However, I would encourage anyone to just switch to the branch ( and / or clone ) for an easier review.
 
-**NOTE** : This program has been deployed on Solana `devnet` with `PROGRAM_ID: GABKmFceR9SmUh2jfeUUANBBryWShuwKEmbuTL1tcHRg`. You won't have to run a localnet instance of solana to use the app. You will have to start the frontend build locally to interact with the program.
+## Notes
 
-There are two parts to this implementation.
+- The app signs every request sent to the wallet. Turn on `auto approve` in your wallet to avoid manually approving every action performed on the task list.
+- The program has been deployed on Solana `devnet` with `PROGRAM_ID: GABKmFceR9SmUh2jfeUUANBBryWShuwKEmbuTL1tcHRg`. You won't have to run a localnet instance of solana to use the app. However, you will have to start the frontend build locally to interact with the program.
 
-## Solana Program ( aka Smart Contract )
+This app lets you :
+- Use a Solana wallet to connect to the app. ( Turn `auto-approve` on )
+- Airdrop yourself some SOL.
+- Create an account against the program.
+- Manage a task list.
+    - Add items.
+    - Edit items.
+    - Complete items.
+    - Delete items.
+
+## Solana Program
 
 Written in `rust` @ `program/src/lib.rs`. It defines a relatively simple program that accepts incoming messages, verifies the signature of the sender, validates that the input is a UTF8 string, and then saves it as a byte-array within the bounds of allocated memory. I've deliberately kept the implementation simple, and there are some simple tests defined below the main implementation.
 
@@ -30,7 +41,7 @@ Written in `rust` @ `program/src/lib.rs`. It defines a relatively simple program
 
 Written in `typescript` with `React`. It defines a relatively simple implementation of (hierarchical) components to render the task list. Some of the major points:
 
-- Connects by default to the instance of this program that's deployed on `devnet`. If the connection fails for some reason, you can redeploy the program based on the instructions above.
+- Connects by default to the instance of this program that's deployed on `devnet`. If the connection fails for some reason, redeploy the program based on the instructions above.
 - Supports most major Solana wallets. ( I've only tested it with Phantom, but the others should work as well. )
 - A very simple component hierarchy is defined which steps through the process of `airdropping SOL`, `creating a program account` and then `manipulating the task list`.
 - Task list is optimistically updated. Changes are synced to the blockchain every 200ms.

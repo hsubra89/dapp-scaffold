@@ -18,7 +18,7 @@ export function useAccountDataFor(pubKey: PublicKey, commitment: Commitment = 's
     return () => {
       connection.removeAccountChangeListener(accChangeListener)
     }
-  }, [pubKey, connection])
+  }, [pubKey, connection, commitment])
 
   return accData
 }
@@ -41,7 +41,7 @@ export function useTransactor(txnOptions: SendTransactionOptions = DEFAULT_TXN_O
     const txn = new Transaction().add(instruction)
     const txnId = await sendTransaction(txn, connection, txnOptions)
     return connection.confirmTransaction(txnId, txnOptions.preflightCommitment)
-  }, [connection, sendTransaction])
+  }, [connection, sendTransaction, txnOptions])
 }
 
 /**
@@ -59,8 +59,7 @@ export default function useDebounce<T>(value: T, delay: number) {
     return () => {
       clearTimeout(handler)
     }
-  },
-    [value])
+  }, [value, delay])
 
   return debouncedValue
 }

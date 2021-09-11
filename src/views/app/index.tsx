@@ -197,7 +197,7 @@ const TaskListManager = (props: { balance: number, pubKey: PublicKey, progPubKey
       return
     }
 
-    return performChange(updateItemInList(taskList, item, x => ({ v, c: false })))
+    return performChange(updateItemInList(taskList, item, () => ({ v, c: false })))
   }
 
   return (<>
@@ -208,7 +208,7 @@ const TaskListManager = (props: { balance: number, pubKey: PublicKey, progPubKey
         <Typography.Text>Available SOL: { props.balance / LAMPORTS_PER_SOL }</Typography.Text>
       }
       footer={
-        <List.Item className="list-item">
+        <List.Item>
           <Space align="start">
             <Input bordered={ false } onChange={ e => setNewItem(e.target.value || '') } onPressEnter={ addItem } value={ newItem } placeholder="Add item ..." allowClear></Input>
           </Space>
